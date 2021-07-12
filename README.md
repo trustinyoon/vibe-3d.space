@@ -8,9 +8,14 @@ I hope that [vibe-3d.space](https:vibe-3d.space) can serve as a nice companion t
 The functionality for the first MVP will be simple in that the user will immediately be immersed into the 3D environment upon visiting the site. The user can use arrow keys or the cursor to look around the environment which will be set at a NYC jazz cafe (will later add other atmospheres like Tokyo, LA, etc.). There will also be floating sliders that can control how much ambient noises the user wants (ex. people talking in the background, street sounds, etc.). Curated Spotify playlists will be embedded on the screen to change playlists at anytime.
 ## 3. Wireframes and File Structure
 ### Wireframe
-
+See static->wireframe.png
 ### File Structure
-
+vibe-3d.space
+- threejs-webpack
+-- src
+--- index.html
+--- script.js
+--- style.css
 
 ## 4. Architecture and Technology
 Stack: 
