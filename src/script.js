@@ -22,6 +22,12 @@ const gui = new dat.GUI();
 const loadingManager = new THREE.LoadingManager();
 const textureLoader = new THREE.TextureLoader(loadingManager);
 
+  // Matcap
+const matcapTexture = textureLoader.load('/matcaps/5.png')
+
+  // Normal
+const normalTexture = textureLoader.load('/normal.jpg')
+
   // Ice
 const iceColorTexture = textureLoader.load('/ice/Ice_001_COLOR.jpg');
 const iceNormalTexture = textureLoader.load('/ice/Ice_001_NRM.jpg');
@@ -64,7 +70,7 @@ fontLoader.load(
       'vibe-3d.space',
       {
         font: font,
-        size: .8,
+        size: .6,
         height: 0.3,
         curveSegments: 12,
         bevelEnabled: true,
@@ -78,12 +84,15 @@ fontLoader.load(
 
     textGeometry.center();
 
-    const textMaterial = new THREE.MeshStandardMaterial({
-      metalness: .2,
-      roughness: .3
+    const textMatcapMaterial = new THREE.MeshMatcapMaterial({
+      matcap: matcapTexture
     });
 
-    const text = new THREE.Mesh(textGeometry, textMaterial);
+    const textNormalMaterial = new THREE.MeshNormalMaterial({
+      normalMap: normalTexture
+    })
+
+    const text = new THREE.Mesh(textGeometry, textNormalMaterial);
     text.geometry.setAttribute(
       'uv2',
       new THREE.BufferAttribute(text.geometry.attributes.uv.array, 2)
@@ -93,9 +102,15 @@ fontLoader.load(
 
     // debugger
     const textFolder = gui.addFolder("Text");
-    textFolder.add(textMaterial, 'metalness', 0, 1, .01);
-    textFolder.add(textMaterial, 'roughness', 0, 1, .01);
-    // textFolder.add(textMaterial)
+    // textFolder.add(textMatcapMaterial, 'metalness', 0, 1, .01);
+    // textFolder.add(textMatcapMaterial, 'roughness', 0, 1, .01);
+    // const parameters = {
+    //   color: 0xff0000
+    // }
+    // textFolder.addColor(parameters, 'color')
+    //   .onChange(() => {
+    //     textMatcapMaterial.color.set(parameters.color)
+    //   })
   }
 )
 
