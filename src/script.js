@@ -1,3 +1,8 @@
+// when making change to production:
+// 1. $ npm run build (updates dist directory with compiled files for production)
+// 2. Do regular git add -A, commit, push 
+// 3. $ git subtree push --prefix dist origin gh-pages
+
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
@@ -68,6 +73,38 @@ const windowMetallicTexture = textureLoader.load('/window/Window_001_metallic.jp
 const windowHeightTexture = textureLoader.load('/window/Window_001_height.png');
 const windowOpacityTexture = textureLoader.load('/window/Window_001_opacity.jpg');
 
+//-----------------------------------Font----------------------------------->>
+
+const fontLoader = new THREE.FontLoader();
+
+fontLoader.load(
+  '/fonts/helvetiker_regular.typeface.json',
+  (font) => {
+    const textGeometry = new THREE.TextGeometry(
+      'vibe-3d.space',
+      {
+        font: font,
+        size: 0.5,
+        height: 0.2,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 0.03,
+        bevelSize: 0.02,
+        bevelOffset: 0,
+        bevelSegments: 5
+      }
+    )
+
+    const textMaterial = new THREE.MeshStandardMaterial({
+      normalMap: floorNormalTexture
+
+    });
+    const text = new THREE.Mesh(textGeometry, textMaterial);
+    
+    scene.add(text);
+  }
+)
+
 //-----------------------------------Canvas----------------------------------->>
 
 const canvas = document.querySelector('canvas.webgl');
@@ -127,11 +164,18 @@ const wallMaterial = new THREE.MeshStandardMaterial({
   roughnessMap: wallRoughnessTexture
 });
 
-gui
-  .add(wallMaterial, 'metalness').min(0).max(1).step(.0001);
+  // Skybox
+const skyboxLoader = new THREE.CubeTextureLoader();
+const skyboxTexture = skyboxLoader.load([
+  '/spaceBox/px.png',
+  '/spaceBox/nx.png',
+  '/spaceBox/py.png',
+  '/spaceBox/ny.png',
+  '/spaceBox/pz.png',
+  '/spaceBox/nz.png'
+])
 
-gui
-  .add(wallMaterial, 'roughness').min(0).max(1).step(.0001);
+scene.background = skyboxTexture;
 
   // Window Materials
 const sideWindowMaterial = new THREE.MeshStandardMaterial({
@@ -143,17 +187,23 @@ const sideWindowMaterial = new THREE.MeshStandardMaterial({
   metalnessMap: windowMetallicTexture,
   opacity: 100,
   roughnessMap: windowRoughnessTexture,
-  alphaMap: windowOpacityTexture
+  alphaMap: windowOpacityTexture,
 });
 
 const mainWindowMaterial = new THREE.MeshStandardMaterial({
-
+  transparent: true,
+  side: THREE.DoubleSide,
+  // opacity: 100,
+  metalnessMap: windowMetallicTexture,
+  roughness: 100,
+  // envMap: skyboxTexture,
+  // normalMap: windowNormalTexture
 });
-
+console.log(skyboxTexture)
 //-----------------------------------Meshes----------------------------------->>
 
   // Floor Meshes
-const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+const floor = new THREE.Mesh(floorGeometry, wallMaterial);
 floor.geometry.setAttribute(
   'uv2', 
   new THREE.BufferAttribute(floor.geometry.attributes.uv.array, 2)
@@ -189,7 +239,7 @@ sideWindow.rotateY(Math.PI / 2);
 sideWindow.scale.set(.5, .25);
 
 const mainWindow = new THREE.Mesh(mainWindowGeometry, mainWindowMaterial);
-mainWindow.position.set(0, 0, -3);
+mainWindow.position.set(0, 2.5, -6.5);
 
   // Adding meshes to the room Group
 const room = new THREE.Group();
@@ -197,8 +247,8 @@ room.add(floor);
 room.add(wall1);
 room.add(wall2);
 room.add(ceiling);
-room.add(sideWindow);
-scene.add(room);
+room.add(mainWindow);
+// scene.add(room);
 
 //-----------------------------------Lights----------------------------------->>
 
@@ -235,8 +285,8 @@ window.addEventListener('resize', () =>
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 0
-camera.position.y = 5
-camera.position.z = 8
+camera.position.y = 0
+camera.position.z = 5
 scene.add(camera)
 
 //----------------------------------Controls---------------------------------->>
