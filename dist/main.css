@@ -11,6 +11,35 @@ body
   font-family: 'Poppins';
 }
 
+.spotify
+{
+  display:block;
+  position:absolute;
+  border-radius: 10px;
+  height: 165px;
+  width: 300px;
+  top: 80%;
+  left: 3%;
+  text-align: center;
+  font-family:monospace;
+  border-color: yellow;
+}
+
+.message
+{
+  display: block;
+  color: white;
+  letter-spacing: 7px;
+}
+
+iframe 
+{
+  display: block;
+  height: 49%; 
+  border: black;
+  border-radius: 10px; 
+}
+
 .webgl
 {
   position: fixed;

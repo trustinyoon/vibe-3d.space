@@ -20,10 +20,13 @@ const loadingManager = new THREE.LoadingManager();
 const textureLoader = new THREE.TextureLoader(loadingManager);
 
   // Matcap
-const matcapTexture = textureLoader.load('/matcaps/5.png')
+const matcapTexture = textureLoader.load('/matcaps/5.png');
 
   // Normal
-const normalTexture = textureLoader.load('/normal.jpg')
+const normalTexture = textureLoader.load('/normal.jpg');
+
+  // Mars
+const marsTexture = textureLoader.load('/mars.jpg');
 
   // Ice
 const iceColorTexture = textureLoader.load('/ice/Ice_001_COLOR.jpg');
@@ -78,7 +81,7 @@ fontLoader.load(
         wireframe: false
       }
     )
-
+    
     textGeometry.center();
 
     const textMatcapMaterial = new THREE.MeshMatcapMaterial({
@@ -90,6 +93,8 @@ fontLoader.load(
     })
 
     const text = new THREE.Mesh(textGeometry, textNormalMaterial);
+    text.position.y = 2;
+    text.rotateX(Math.PI / 10)
     text.geometry.setAttribute(
       'uv2',
       new THREE.BufferAttribute(text.geometry.attributes.uv.array, 2)
@@ -139,14 +144,30 @@ scene.background = skyboxTexture;
 
 //---------------------------------Geometries--------------------------------->>
 
-
+const planetGeometry = new THREE.SphereGeometry(3, 32, 32);
 
 //---------------------------------Materials--------------------------------->>
 
+const planetMaterial = new THREE.MeshStandardMaterial({
+  color: metalColorTexture,
+  normalMap: metalNormalTexture,
+  aoMap: metalNormalTexture,
+  aoMapIntensity: 1,
+  // specularMap: metaltex,
+  displacementMap: metalHeightTexture
+
+});
 
 
 //-----------------------------------Meshes----------------------------------->>
 
+const planet = new THREE.Mesh(planetGeometry, planetMaterial);
+planet.position.y = -3;
+planet.geometry.setAttribute(
+  'uv2',
+  new THREE.BufferAttribute(planet.geometry.attributes.uv.array, 2)
+);
+scene.add(planet);
 
 //-----------------------------------Lights----------------------------------->>
 
