@@ -13,9 +13,6 @@ import { Material } from 'three'
 
 const gui = new dat.GUI();
 
-
-
-
 //--------------------------------Textures--------------------------------//
 
   // Loading Manager Setup
@@ -60,7 +57,7 @@ loadingManager.onError = () => {
 }
 
 //-----------------------------------Font----------------------------------->>
-
+const group = new THREE.Group();
 const fontLoader = new THREE.FontLoader();
 
 fontLoader.load(
@@ -97,8 +94,9 @@ fontLoader.load(
       'uv2',
       new THREE.BufferAttribute(text.geometry.attributes.uv.array, 2)
     );
-    console.log(text)
-    scene.add(text);
+    group.add(text);
+    scene.add(group);
+    
 
     // debugger
     const textFolder = gui.addFolder("Text");
@@ -212,7 +210,9 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update objects
-
+    // console.log(scene.children[5])
+    // group.rotateX(elapsedTime * .0005)
+    group.rotateY(elapsedTime * .001);
     // Update Orbital Controls
     controls.update()
 
