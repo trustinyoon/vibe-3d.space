@@ -37,6 +37,7 @@ loadingManager.onProgress = () => {
 }
 loadingManager.onError = () => {
   console.log('onError');
+  console.log('onError');
 }
 
   // Floor Textures
