@@ -161,7 +161,7 @@ floor.position.set(0, 0, -.75);
 floor.rotateX(Math.PI/2);
 
   // Ceiling Meshes
-const ceiling = new THREE.Mesh(floorGeometry, ceilingMaterial);
+const ceiling = new THREE.Mesh(floorGeometry, wallMaterial);
 ceiling.position.set(0, 5, -.75);
 ceiling.rotateX(Math.PI / 2);
 ceiling.geometry.setAttribute(
