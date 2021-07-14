@@ -1,4 +1,5 @@
 // when making change to production:
+// 0. delete subtree gh-pages
 // 1. $ npm run build (updates dist directory with compiled files for production)
 // 2. Do regular git add -A, commit, push 
 // 3. $ git subtree push --prefix dist origin gh-pages
@@ -35,13 +36,12 @@ const iceOccTexture = textureLoader.load('/ice/Ice_001_OCC.jpg');
 const iceSpecTexture = textureLoader.load('/ice/Ice_001_SPEC.jpg');
 const iceHeightTexture = textureLoader.load('/ice/Ice_001_DISP.png');
 
-  // Metal
-const metalColorTexture = textureLoader.load('/metal/Metal_Plate_Sci-Fi_001_basecolor.jpg');
-const metalAoTexture = textureLoader.load('/metal/Metal_Plate_Sci-Fi_001_ambientOcclusion.jpg');
-const metalHeightTexture = textureLoader.load('/metal/Metal_Plate_Sci-Fi_001_height.png');
-const metalMetallicTexture = textureLoader.load('/metal/Metal_Plate_Sci-Fi_001_metallic.jpg');
-const metalNormalTexture = textureLoader.load('/metal/Metal_Plate_Sci-Fi_001_normal.jpg');
-const metalRoughnessTexture = textureLoader.load('/metal/Metal_Plate_Sci-Fi_001_roughness.jpg');
+  // Mossy
+const mossyColorTexture = textureLoader.load('/mossy/Rock_Moss_001_basecolor.jpg');
+const mossyAoTexture = textureLoader.load('/mossy/Rock_Moss_001_ambientOcclusion.jpg');
+const mossyHeightTexture = textureLoader.load('/mossy/Rock_Moss_001_height.png');
+const mossyNormalTexture = textureLoader.load('/mossy/Rock_Moss_001_normal.jpg');
+const mossyRoughnessTexture = textureLoader.load('/mossy/Rock_Moss_001_roughness.jpg');
 
 loadingManager.onStart = () => {
   console.log('onStart');
@@ -94,7 +94,7 @@ fontLoader.load(
 
     const text = new THREE.Mesh(textGeometry, textNormalMaterial);
     text.position.y = 2;
-    text.rotateX(Math.PI / 10)
+    text.rotateX(- Math.PI / 21)
     text.geometry.setAttribute(
       'uv2',
       new THREE.BufferAttribute(text.geometry.attributes.uv.array, 2)
@@ -105,7 +105,7 @@ fontLoader.load(
 
     // debugger
     const textFolder = gui.addFolder("Text");
-    // textFolder.add(textMatcapMaterial, 'metalness', 0, 1, .01);
+    // textFolder.add(textMatcapMaterial, 'mossyness', 0, 1, .01);
     // textFolder.add(textMatcapMaterial, 'roughness', 0, 1, .01);
     // const parameters = {
     //   color: 0xff0000
@@ -144,25 +144,24 @@ scene.background = skyboxTexture;
 
 //---------------------------------Geometries--------------------------------->>
 
-const planetGeometry = new THREE.SphereGeometry(3, 32, 32);
+const planetGeometry = new THREE.SphereGeometry(4, 32, 32);
 
 //---------------------------------Materials--------------------------------->>
 
 const planetMaterial = new THREE.MeshStandardMaterial({
-  color: metalColorTexture,
-  normalMap: metalNormalTexture,
-  aoMap: metalNormalTexture,
-  aoMapIntensity: 1,
-  // specularMap: metaltex,
-  displacementMap: metalHeightTexture
-
+  map: mossyColorTexture,
+  normalMap: mossyNormalTexture,
+  aoMap: mossyAoTexture,
+  aoMapIntensity: 5,
+  displacementMap: mossyHeightTexture,
+  roughnessMap: mossyRoughnessTexture
 });
 
 
 //-----------------------------------Meshes----------------------------------->>
 
 const planet = new THREE.Mesh(planetGeometry, planetMaterial);
-planet.position.y = -3;
+planet.position.y = -4;
 planet.geometry.setAttribute(
   'uv2',
   new THREE.BufferAttribute(planet.geometry.attributes.uv.array, 2)
@@ -202,10 +201,10 @@ window.addEventListener('resize', () =>
 
 //-----------------------------------Camera----------------------------------->>
 
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 0
-camera.position.y = 0
-camera.position.z = 5
+camera.position.y = 3
+camera.position.z = 10
 scene.add(camera)
 
 //----------------------------------Controls---------------------------------->>
@@ -232,8 +231,9 @@ const tick = () =>
 
     // Update objects
     // console.log(scene.children[5])
-    // group.rotateX(elapsedTime * .0005)
+    // group.rotateX(elapsedTime * .0005);
     // group.rotateY(elapsedTime * .001);
+    planet.rotateY(elapsedTime * .00005);
     // Update Orbital Controls
     controls.update()
 
