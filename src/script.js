@@ -69,7 +69,7 @@ const windowOpacityTexture = textureLoader.load('/window/Window_001_opacity.jpg'
 
 //-----------------------------------Canvas----------------------------------->>
 
-const canvas = document.querySelector('../canvas.webgl');
+const canvas = document.querySelector('canvas.webgl');
 
 //-----------------------------------Scene----------------------------------->>
 
