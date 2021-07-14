@@ -212,7 +212,7 @@ const tick = () =>
     // Update objects
     // console.log(scene.children[5])
     // group.rotateX(elapsedTime * .0005)
-    group.rotateY(elapsedTime * .001);
+    // group.rotateY(elapsedTime * .001);
     // Update Orbital Controls
     controls.update()
 
