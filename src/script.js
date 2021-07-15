@@ -20,28 +20,19 @@ const gui = new dat.GUI();
 const loadingManager = new THREE.LoadingManager();
 const textureLoader = new THREE.TextureLoader(loadingManager);
 
-  // Matcap
-const matcapTexture = textureLoader.load('/matcaps/5.png');
-
-  // Normal
-const normalTexture = textureLoader.load('/normal.jpg');
-
-  // Mars
-const marsTexture = textureLoader.load('/mars.jpg');
-
   // Ice
-const iceColorTexture = textureLoader.load('/ice/Ice_001_COLOR.jpg');
-const iceNormalTexture = textureLoader.load('/ice/Ice_001_NRM.jpg');
-const iceOccTexture = textureLoader.load('/ice/Ice_001_OCC.jpg');
-const iceSpecTexture = textureLoader.load('/ice/Ice_001_SPEC.jpg');
-const iceHeightTexture = textureLoader.load('/ice/Ice_001_DISP.png');
+// const iceColorTexture = textureLoader.load('/ice/Ice_001_COLOR.jpg');
+// const iceNormalTexture = textureLoader.load('/ice/Ice_001_NRM.jpg');
+// const iceOccTexture = textureLoader.load('/ice/Ice_001_OCC.jpg');
+// const iceSpecTexture = textureLoader.load('/ice/Ice_001_SPEC.jpg');
+// const iceHeightTexture = textureLoader.load('/ice/Ice_001_DISP.png');
 
   // Mossy
-const mossyColorTexture = textureLoader.load('/mossy/Rock_Moss_001_basecolor.jpg');
-const mossyAoTexture = textureLoader.load('/mossy/Rock_Moss_001_ambientOcclusion.jpg');
-const mossyHeightTexture = textureLoader.load('/mossy/Rock_Moss_001_height.png');
-const mossyNormalTexture = textureLoader.load('/mossy/Rock_Moss_001_normal.jpg');
-const mossyRoughnessTexture = textureLoader.load('/mossy/Rock_Moss_001_roughness.jpg');
+const mossyColorTexture = textureLoader.load('./mossy/Rock_Moss_001_basecolor.jpg');
+const mossyAoTexture = textureLoader.load('./mossy/Rock_Moss_001_ambientOcclusion.jpg');
+const mossyHeightTexture = textureLoader.load('./mossy/Rock_Moss_001_height.png');
+const mossyNormalTexture = textureLoader.load('./mossy/Rock_Moss_001_normal.jpg');
+const mossyRoughnessTexture = textureLoader.load('./mossy/Rock_Moss_001_roughness.jpg');
 
 loadingManager.onStart = () => {
   console.log('onStart');
@@ -64,7 +55,7 @@ const group = new THREE.Group();
 const fontLoader = new THREE.FontLoader();
 
 fontLoader.load(
-  '/fonts/helvetiker_regular.typeface.json',
+  './fonts/helvetiker_regular.typeface.json',
   (font) => {
     const textGeometry = new THREE.TextGeometry(
       'vibe-3d.space',
@@ -84,13 +75,11 @@ fontLoader.load(
     
     textGeometry.center();
 
-    const textMatcapMaterial = new THREE.MeshMatcapMaterial({
-      matcap: matcapTexture
-    });
+    // const textMatcapMaterial = new THREE.MeshMatcapMaterial({
+    //   matcap: matcapTexture,
+    // });
 
-    const textNormalMaterial = new THREE.MeshNormalMaterial({
-      normalMap: normalTexture
-    })
+    const textNormalMaterial = new THREE.MeshNormalMaterial()
 
     const text = new THREE.Mesh(textGeometry, textNormalMaterial);
     text.position.y = 2;
@@ -132,12 +121,12 @@ scene.add(gridHelper)
 // Skybox
 const skyboxLoader = new THREE.CubeTextureLoader();
 const skyboxTexture = skyboxLoader.load([
-  '/spaceBox/px.png',
-  '/spaceBox/nx.png',
-  '/spaceBox/py.png',
-  '/spaceBox/ny.png',
-  '/spaceBox/pz.png',
-  '/spaceBox/nz.png'
+  './spaceBox/px.png',
+  './spaceBox/nx.png',
+  './spaceBox/py.png',
+  './spaceBox/ny.png',
+  './spaceBox/pz.png',
+  './spaceBox/nz.png'
 ])
 
 scene.background = skyboxTexture;
@@ -171,11 +160,11 @@ scene.add(planet);
 //-----------------------------------Lights----------------------------------->>
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-ambientLight.position.set(2,5,5);
+ambientLight.position.set(2,3,5);
 scene.add(ambientLight);
 
-const pointLight = new THREE.PointLight(0xffffff, 0.5)
-pointLight.position.set(1, 3, 1);
+const pointLight = new THREE.PointLight(0xffffff, 1)
+pointLight.position.set(0, 4, 0);
 scene.add(pointLight);
 
 //-----------------------------------Sizes----------------------------------->>
@@ -231,9 +220,12 @@ const tick = () =>
 
     // Update objects
     // console.log(scene.children[5])
-    // group.rotateX(elapsedTime * .0005);
-    // group.rotateY(elapsedTime * .001);
-    planet.rotateY(elapsedTime * .00005);
+    // group.rotateX(.0005);
+    
+    if (group.position.y) {
+      group.position.y = elapsedTime;
+    }
+    planet.rotateY(.0003);
     // Update Orbital Controls
     controls.update()
 
