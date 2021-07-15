@@ -8,99 +8,10 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
-import { Material } from 'three'
 
-//--------------------------------Debug UI--------------------------------//
+//----------------------------------Debug UI---------------------------------->>
 
-const gui = new dat.GUI();
-
-//--------------------------------Textures--------------------------------//
-
-  // Loading Manager Setup
-const loadingManager = new THREE.LoadingManager();
-const textureLoader = new THREE.TextureLoader(loadingManager);
-
-  // Star
-// const starsTexture = textureLoader.load('./particles/black/star_01.png')
-
-  // Mossy
-const mossyColorTexture = textureLoader.load('./mossy/Rock_Moss_001_basecolor.jpg');
-const mossyAoTexture = textureLoader.load('./mossy/Rock_Moss_001_ambientOcclusion.jpg');
-const mossyHeightTexture = textureLoader.load('./mossy/Rock_Moss_001_height.png');
-const mossyNormalTexture = textureLoader.load('./mossy/Rock_Moss_001_normal.jpg');
-const mossyRoughnessTexture = textureLoader.load('./mossy/Rock_Moss_001_roughness.jpg');
-
-loadingManager.onStart = () => {
-  console.log('onStart');
-}
-
-loadingManager.onLoad = () => {
-  console.log('onLoad');
-}
-
-loadingManager.onProgress = () => {
-  console.log('onProgress');
-}
-loadingManager.onError = () => {
-  console.log('onError');
-  console.log('onError');
-}
-
-//-----------------------------------Font----------------------------------->>
-const group = new THREE.Group();
-const fontLoader = new THREE.FontLoader();
-
-fontLoader.load(
-  './fonts/helvetiker_regular.typeface.json',
-  (font) => {
-    const textGeometry = new THREE.TextGeometry(
-      'vibe-3d.space',
-      {
-        font: font,
-        size: .6,
-        height: 0.3,
-        curveSegments: 12,
-        bevelEnabled: true,
-        bevelThickness: .7,
-        bevelSize: 0.1,
-        bevelOffset: 0,
-        bevelSegments: 1,
-        wireframe: false
-      }
-    )
-    
-    textGeometry.center();
-
-    // const textMatcapMaterial = new THREE.MeshMatcapMaterial({
-    //   matcap: matcapTexture,
-    // });
-
-    const textNormalMaterial = new THREE.MeshNormalMaterial()
-
-    const text = new THREE.Mesh(textGeometry, textNormalMaterial);
-    text.position.y = 2;
-    text.rotateX(- Math.PI / 21)
-    text.geometry.setAttribute(
-      'uv2',
-      new THREE.BufferAttribute(text.geometry.attributes.uv.array, 2)
-    );
-    group.add(text);
-    scene.add(group);
-    
-
-    // debugger
-    const textFolder = gui.addFolder("Text");
-    // textFolder.add(textMatcapMaterial, 'mossyness', 0, 1, .01);
-    // textFolder.add(textMatcapMaterial, 'roughness', 0, 1, .01);
-    // const parameters = {
-    //   color: 0xff0000
-    // }
-    // textFolder.addColor(parameters, 'color')
-    //   .onChange(() => {
-    //     textMatcapMaterial.color.set(parameters.color)
-    //   })
-  }
-)
+// const gui = new dat.GUI();
 
 //-----------------------------------Canvas----------------------------------->>
 
@@ -127,6 +38,75 @@ const skyboxTexture = skyboxLoader.load([
 
 scene.background = skyboxTexture;
 
+//--------------------------------Textures--------------------------------//
+
+  // Loading Manager Setup
+const loadingManager = new THREE.LoadingManager();
+const textureLoader = new THREE.TextureLoader(loadingManager);
+
+  // Star
+// const starsTexture = textureLoader.load('./particles/black/star_01.png')
+
+  // Mossy
+const mossyColorTexture = textureLoader.load('./mossy/Rock_Moss_001_basecolor.jpg');
+const mossyAoTexture = textureLoader.load('./mossy/Rock_Moss_001_ambientOcclusion.jpg');
+const mossyHeightTexture = textureLoader.load('./mossy/Rock_Moss_001_height.png');
+const mossyNormalTexture = textureLoader.load('./mossy/Rock_Moss_001_normal.jpg');
+const mossyRoughnessTexture = textureLoader.load('./mossy/Rock_Moss_001_roughness.jpg');
+
+//-----------------------------------Font----------------------------------->>
+const group = new THREE.Group();
+const fontLoader = new THREE.FontLoader();
+
+fontLoader.load(
+  './fonts/helvetiker_regular.typeface.json',
+  (font) => {
+    const textGeometry = new THREE.TextGeometry(
+      'vibe-3d.space',
+      {
+        font: font,
+        size: .6,
+        height: 0.3,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: .7,
+        bevelSize: 0.1,
+        bevelOffset: 0,
+        bevelSegments: 1,
+        wireframe: false
+      }
+    )
+    
+    textGeometry.center();
+
+    const textNormalMaterial = new THREE.MeshNormalMaterial()
+
+    const text = new THREE.Mesh(textGeometry, textNormalMaterial);
+    text.position.y = 2;
+    text.rotateX(- Math.PI / 21)
+    text.geometry.setAttribute(
+      'uv2',
+      new THREE.BufferAttribute(text.geometry.attributes.uv.array, 2)
+    );
+
+    group.add(text);
+    scene.add(group);
+    
+
+    // debugger
+    // const textFolder = gui.addFolder("Text");
+    // textFolder.add(textMatcapMaterial, 'mossyness', 0, 1, .01);
+    // textFolder.add(textMatcapMaterial, 'roughness', 0, 1, .01);
+    // const parameters = {
+    //   color: 0xff0000
+    // }
+    // textFolder.addColor(parameters, 'color')
+    //   .onChange(() => {
+    //     textMatcapMaterial.color.set(parameters.color)
+    //   })
+  }
+)
+
 //---------------------------------Geometries--------------------------------->>
 
 const planetGeometry = new THREE.SphereGeometry(4, 32, 32);
@@ -141,7 +121,6 @@ const planetMaterial = new THREE.MeshStandardMaterial({
   displacementMap: mossyHeightTexture,
   roughnessMap: mossyRoughnessTexture
 });
-
 
 //-----------------------------------Meshes----------------------------------->>
 
@@ -201,70 +180,108 @@ const sizes = {
 window.addEventListener('resize', () =>
 {
     // Update sizes
-    sizes.width = window.innerWidth
-    sizes.height = window.innerHeight
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
 
     // Update camera
-    camera.aspect = sizes.width / sizes.height
-    camera.updateProjectionMatrix()
+    camera.aspect = sizes.width / sizes.height;
+    camera.updateProjectionMatrix();
 
     // Update renderer
-    renderer.setSize(sizes.width, sizes.height)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 })
 
 //-----------------------------------Camera----------------------------------->>
 
-const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 0
-camera.position.y = 3
-camera.position.z = 10
-scene.add(camera)
+const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 100);
+camera.position.x = 0;
+camera.position.y = 3;
+camera.position.z = 10;
+scene.add(camera);
 
 //----------------------------------Controls---------------------------------->>
 
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
 
 //----------------------------------Renderer---------------------------------->>
 
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
 })
-renderer.setSize(sizes.width, sizes.height)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+//----------------------------------Raycaster---------------------------------->>
+
+// const raycaster = new THREE.Raycaster();
+// let currentIntersect = null;
+// const rayOrigin = new THREE.Vector3(-3, 0, 0);
+// const rayDirection = new THREE.Vector3(10, 0, 0);
+// rayDirection.normalize();
+// raycaster.set(rayOrigin, rayDirection);
+
+//-----------------------------------Mouse----------------------------------->>
+
+// const mouse = new THREE.Vector2();
+
+// window.addEventListener('mousemove', (event) => {
+//   mouse.x = event.clientX / sizes.width * 2 - 1;
+//   mouse.y = - (event.clientY / sizes.height) * 2 + 1;
+// })
+
+// window.addEventListener('click', () => {
+//   if (currentIntersect) {
+//     console.log("HI")
+//   }
+// })
 
 //----------------------------------Animate---------------------------------->>
 
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
+// window.addEventListener('mousemove', (e) => {
+//   mouse.x = e.clientX / sizes.width * 2 - 1;
+//   mouse.y = - (e.clientY / sizes.width * 2 - 1);
+//   console.log('mouse')
+// })
 
-const onMouseMove = (e) => {
-  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = (e.clientY / window.innerWidth) * 2 + 1;
-}
 
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
+  const elapsedTime = clock.getElapsedTime()
 
-    const elapsedTime = clock.getElapsedTime()
+  // raycaster.setFromCamera(mouse, camera);
 
-    // Update objects
-    stars.rotateY(0.001)
+  // const intersects = raycaster.intersectObject(group);
 
-    group.position.y = Math.sin(elapsedTime) / 4;
-    
-    planet.rotateY(.0005);
-    // Update Orbital Controls
-    controls.update()
+  // if (intersects.length) {
+  //   if (!currentIntersect) {
+  //     console.log('mouse enter')
+  //   }
+  //   currentIntersect = intersects
+  // } else {
+  //   if (currentIntersect) {
+  //     console.log('mouse leave')
+  //   }
 
-    // Render
-    renderer.render(scene, camera)
+  //   currentIntersect = null;
+  // }
+  
+  // Update objects
+  stars.rotateY(0.001)
 
-    // Call tick again on the next frame
-    window.requestAnimationFrame(tick)
+  group.position.y = Math.sin(elapsedTime) / 4;
+  
+  planet.rotateY(.0005);
+  // Update Orbital Controls
+  controls.update()
+
+  // Render
+  renderer.render(scene, camera)
+
+  // Call tick again on the next frame
+  window.requestAnimationFrame(tick)
 }
 
 tick()

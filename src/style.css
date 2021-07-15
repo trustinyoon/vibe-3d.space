@@ -8,7 +8,46 @@ html,
 body
 {
   height: 100vh;
-  font-family: 'Poppins';
+  font-family: monospace;
+}
+
+.nav
+{
+  display: block;
+  position: relative;
+  text-align: center;
+  background-color: lightgray;
+
+  height: 1.5%;
+}
+
+.buttons
+{
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-top: 5%;
+}
+
+.buttons div 
+{
+  color: white;
+  border: solid thin white;
+  border-radius: 2px;
+  padding: .5%;
+  padding-left: .5%;
+  padding-right: .5%;
+  margin-right: 5%;
+  margin-left: 5%;
+  font-size: 1.3rem;
+  background-color:;
+  box-shadow: 6px 3px 0.5px lightgray;
+}
+
+.buttons div:hover 
+{
+  background-color: lightgray;
+  cursor: pointer;
 }
 
 .spotify
@@ -21,7 +60,6 @@ body
   top: 80%;
   left: 3%;
   text-align: center;
-  font-family:monospace;
   border-color: yellow;
 }
 
