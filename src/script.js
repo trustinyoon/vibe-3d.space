@@ -157,15 +157,29 @@ planet.geometry.setAttribute(
 );
 scene.add(planet);
 
+//---------------------------------Particles--------------------------------->>
+
+const starsGeometry = new THREE.SphereGeometry(1, 32, 32);
+const starsMaterial = new THREE.PointsMaterial({
+  size: 0.02,
+  sizeAttenuation: true
+});
+
+const stars = new THREE.Points(starsGeometry, starsMaterial);
+scene.add(stars);
+
 //-----------------------------------Lights----------------------------------->>
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+const ambientLight = new THREE.AmbientLight(0xffffff, .7);
 ambientLight.position.set(2,3,5);
-scene.add(ambientLight);
+// scene.add(ambientLight);
 
-const pointLight = new THREE.PointLight(0xffffff, 1)
+const pointLight = new THREE.PointLight(0xffffff, 2)
 pointLight.position.set(0, 4, 0);
 scene.add(pointLight);
+
+// const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
+// scene.add(pointLightHelper);
 
 //-----------------------------------Sizes----------------------------------->>
 const sizes = {
@@ -225,7 +239,7 @@ const tick = () =>
     if (group.position.y) {
       group.position.y = elapsedTime;
     }
-    planet.rotateY(.0003);
+    planet.rotateY(.0005);
     // Update Orbital Controls
     controls.update()
 
