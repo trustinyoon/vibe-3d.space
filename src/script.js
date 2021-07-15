@@ -20,12 +20,8 @@ const gui = new dat.GUI();
 const loadingManager = new THREE.LoadingManager();
 const textureLoader = new THREE.TextureLoader(loadingManager);
 
-  // Ice
-// const iceColorTexture = textureLoader.load('/ice/Ice_001_COLOR.jpg');
-// const iceNormalTexture = textureLoader.load('/ice/Ice_001_NRM.jpg');
-// const iceOccTexture = textureLoader.load('/ice/Ice_001_OCC.jpg');
-// const iceSpecTexture = textureLoader.load('/ice/Ice_001_SPEC.jpg');
-// const iceHeightTexture = textureLoader.load('/ice/Ice_001_DISP.png');
+  // Star
+// const starsTexture = textureLoader.load('./particles/black/star_01.png')
 
   // Mossy
 const mossyColorTexture = textureLoader.load('./mossy/Rock_Moss_001_basecolor.jpg');
@@ -159,10 +155,25 @@ scene.add(planet);
 
 //---------------------------------Particles--------------------------------->>
 
-const starsGeometry = new THREE.SphereGeometry(1, 32, 32);
+const starsGeometry = new THREE.BufferGeometry();
+const count = 500;
+
+const positions = new Float32Array(count * 3);
+
+for (let i = 0; i < count * 3; i++) {
+  positions[i] = (Math.random() - 0.5) * 20;
+}
+
+starsGeometry.setAttribute(
+  'position',
+  new THREE.BufferAttribute(positions, 3)
+);
+
 const starsMaterial = new THREE.PointsMaterial({
   size: 0.02,
-  sizeAttenuation: true
+  sizeAttenuation: true,
+  blending: THREE.AdditiveBlending,
+  // map: starsTexture
 });
 
 const stars = new THREE.Points(starsGeometry, starsMaterial);
@@ -225,6 +236,14 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 //----------------------------------Animate---------------------------------->>
 
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+const onMouseMove = (e) => {
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = (e.clientY / window.innerWidth) * 2 + 1;
+}
+
 const clock = new THREE.Clock()
 
 const tick = () =>
@@ -233,12 +252,10 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update objects
-    // console.log(scene.children[5])
-    // group.rotateX(.0005);
+    stars.rotateY(0.001)
+
+    group.position.y = Math.sin(elapsedTime) / 4;
     
-    if (group.position.y) {
-      group.position.y = elapsedTime;
-    }
     planet.rotateY(.0005);
     // Update Orbital Controls
     controls.update()
