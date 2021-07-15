@@ -110,9 +110,9 @@ const canvas = document.querySelector('canvas.webgl');
 
 const scene = new THREE.Scene();
 const axesHelper = new THREE.AxesHelper();
-scene.add(axesHelper);
+// scene.add(axesHelper);
 const gridHelper = new THREE.GridHelper(10, 20);
-scene.add(gridHelper)
+// scene.add(gridHelper)
 
 // Skybox
 const skyboxLoader = new THREE.CubeTextureLoader();
