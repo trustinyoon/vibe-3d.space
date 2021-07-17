@@ -5,16 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>vibe-3d.space</title>
     <link rel="shortcut icon" type="image/png" href="../static/faviconio-logo/favicon.png"/>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EY0B4W1VCY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+
+      gtag('config', 'G-EY0B4W1VCY');
+    </script>
 </head>
 <body>
   <canvas class="webgl"></canvas>
+
   <div class="nav">
     functionalities currently under construction
   </div>
+
   <div class="buttons">
     <div id="galaxy-generator">generate galaxy</div>
     <div id="audio-visualizer">visualize frequencies</div>
   </div>
+
+  <!-- <div class="audio-sliders-container">
+    <input type="range" min="1" max="100" value="50" class="audio-slider" id="range1">
+  </div> -->
+
   <div class="spotify">
     <div class="message">your curated vibe</div>
     <iframe src="https://open.spotify.com/embed/album/0xcMQ20tnSVRCFRZkAXK80" 

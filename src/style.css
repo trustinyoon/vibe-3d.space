@@ -50,6 +50,34 @@ body
   cursor: pointer;
 }
 
+.audio-sliders-container
+{
+  display: block;
+  position: absolute;
+  border: solid white thin;
+  top: 83%;
+  margin-left: 50%;
+  height: 8%;
+  width: 40%;
+}
+
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
 .spotify
 {
   display:block;
