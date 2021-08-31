@@ -41,7 +41,7 @@ body
   margin-top: 5%;
 }
 
-.buttons div 
+.buttons a 
 {
   color: white;
   border: solid thin white;
@@ -52,11 +52,13 @@ body
   margin-right: 5%;
   margin-left: 5%;
   font-size: 1.3rem;
-  background-color:;
+  background-color: transparent;
   box-shadow: 6px 3px 0.5px lightgray;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
-.buttons div:hover 
+.buttons a:hover 
 {
   background-color: lightgray;
   cursor: pointer;

@@ -11,7 +11,7 @@ import * as dat from 'dat.gui'
 
 //----------------------------------Debug UI---------------------------------->>
 
-// const gui = new dat.GUI();
+const gui = new dat.GUI();
 
 //-----------------------------------Canvas----------------------------------->>
 
@@ -106,6 +106,68 @@ fontLoader.load(
     //   })
   }
 )
+
+//-----------------------------------Galaxy----------------------------------->>
+
+const parameters = {
+  count: 1000,
+  size: .02,
+  radius: 5,
+  branches: 3
+}
+
+let galaxyGeometry = null;
+let galaxyMaterial = null;
+let galaxyPoints = null;
+
+const generateGalaxy = () => {
+
+  // Destroy old galaxy
+  if (galaxyPoints !== null) {
+    galaxyGeometry.dispose()
+    galaxyMaterial.dispose()
+    scene.remove(galaxyPoints)
+  }
+  
+  galaxyGeometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(parameters.count * 3);
+
+  for(let i = 0; i< parameters.count; i++) {
+    const i3 = i * 3
+  
+    const radius = Math.random() * parameters.radius;
+    const branchAngle = (i % parameters.branches) / parameters.branches * Math.PI * 2;
+    
+    positions[i3 + 0] = Math.cos(branchAngle) * radius;
+    positions[i3 + 1] = 0
+    positions[i3 + 2] = Math.sin(branchAngle) * radius;
+  }
+
+  // Geometry
+  galaxyGeometry.setAttribute(
+    'position',
+    new THREE.BufferAttribute(positions, 3)
+  )
+
+  // Material
+  galaxyMaterial = new THREE.PointsMaterial({
+    size: parameters.size,
+    sizeAttenuation: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  })
+
+  // Points
+  galaxyPoints = new THREE.Points(galaxyGeometry, galaxyMaterial)
+  scene.add(galaxyPoints)
+}
+
+generateGalaxy();
+
+gui.add(parameters, "count").min(100).max(1000000).step(100).onFinishChange(generateGalaxy);
+gui.add(parameters, "size").min(0.001).max(0.1).step(0.001).onFinishChange(generateGalaxy);
+gui.add(parameters, "radius").min(0.01).max(20).step(0.01).onFinishChange(generateGalaxy);
+gui.add(parameters, "branches").min(2).max(20).step(1).onFinishChange(generateGalaxy);
 
 //---------------------------------Geometries--------------------------------->>
 
