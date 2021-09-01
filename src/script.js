@@ -55,7 +55,7 @@ const mossyNormalTexture = textureLoader.load('./mossy/Rock_Moss_001_normal.jpg'
 const mossyRoughnessTexture = textureLoader.load('./mossy/Rock_Moss_001_roughness.jpg');
 
 //-----------------------------------Font----------------------------------->>
-const group = new THREE.Group();
+const textGroup = new THREE.Group();
 const fontLoader = new THREE.FontLoader();
 
 fontLoader.load(
@@ -89,8 +89,8 @@ fontLoader.load(
       new THREE.BufferAttribute(text.geometry.attributes.uv.array, 2)
     );
 
-    group.add(text);
-    scene.add(group);
+    textGroup.add(text);
+    scene.add(textGroup);
     
 
     // debugger
@@ -110,13 +110,13 @@ fontLoader.load(
 //-----------------------------------Galaxy----------------------------------->>
 
 const parameters = {
-  count: 1000,
+  count: 100000,
   size: .02,
-  radius: 5,
+  radius: 8,
   branches: 3,
   spin: 1,
   randomness: .2,
-  randomnessLevel: 3,
+  randomnessLevel: 2,
   insideColor: '#ff6030',
   outsideColor: '#1b3984'
 }
@@ -161,8 +161,8 @@ const generateGalaxy = () => {
     colors[i3 + 1] = mixedColor.g
     colors[i3 + 2] = mixedColor.b
 
-    positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomX
-    positions[i3 + 1] = randomY;
+    positions[i3] = (Math.cos(branchAngle + spinAngle) * radius + randomX) 
+    positions[i3 + 1] = randomY - 3;
     positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ
   }
 
@@ -184,7 +184,10 @@ const generateGalaxy = () => {
   scene.add(galaxyPoints)
 }
 
-generateGalaxy();
+document.getElementById("galaxy-generator").addEventListener("click", () => {
+  generateGalaxy();
+  scene.remove(planet, textGroup);
+});
 
 gui.add(parameters, "count").min(100).max(1000000).step(100).onFinishChange(generateGalaxy);
 gui.add(parameters, "size").min(0.001).max(0.1).step(0.001).onFinishChange(generateGalaxy);
@@ -360,7 +363,7 @@ const tick = () => {
   // Update objects
   stars.rotateY(0.001)
 
-  group.position.y = Math.sin(elapsedTime) / 4;
+  textGroup.position.y = Math.sin(elapsedTime) / 4;
   
   planet.rotateY(.0005);
   // Update Orbital Controls
