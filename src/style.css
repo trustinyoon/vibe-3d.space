@@ -11,6 +11,7 @@ body
   font-family: monospace;
 }
 
+
 .marquee
 {
   position: relative;
@@ -31,6 +32,11 @@ body
   100%{
     transform: translate(-100%, 0);
   }
+}
+
+.dg.a 
+{ 
+  margin-top: 1%; 
 }
 
 .buttons
@@ -56,12 +62,16 @@ body
   box-shadow: 6px 3px 0.5px lightgray;
   white-space: nowrap;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .buttons a:hover 
 {
   background-color: lightgray;
-  cursor: pointer;
+}
+
+#audio-visualizer {
+  text-decoration: line-through;
 }
 
 .audio-sliders-container
@@ -99,7 +109,7 @@ body
   border-radius: 10px;
   height: 165px;
   width: 300px;
-  top: 80%;
+  top: 85%;
   left: 3%;
   text-align: center;
   border-color: yellow;
@@ -111,6 +121,15 @@ body
   color: white;
   letter-spacing: 7px;
   line-height: 40px;
+}
+
+.control-instructions 
+{
+  display: block;
+  position: absolute;
+  color: white;
+  top: 90%;
+  right: 3%;
 }
 
 iframe 
