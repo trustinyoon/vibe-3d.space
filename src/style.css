@@ -42,7 +42,6 @@ body
 .buttons
 {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   position: relative;
   margin-top: 5%;
@@ -151,6 +150,10 @@ iframe
 
 @media (max-width:400px)  { 
   /* smartphones, iPhone, portrait 480x320 phones */ 
+  .buttons {
+    flex-direction: column;
+  }
+  
   .spotify, .marquee {
     display: none;
   }
