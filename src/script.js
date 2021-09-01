@@ -11,7 +11,9 @@ import * as dat from 'dat.gui'
 
 //----------------------------------Debug UI---------------------------------->>
 
-const gui = new dat.GUI();
+const gui = new dat.GUI({closed: false});
+const galaxyFolder = gui.addFolder("customize galaxy")
+gui.hide();
 
 //-----------------------------------Canvas----------------------------------->>
 
@@ -111,12 +113,12 @@ fontLoader.load(
 
 const parameters = {
   count: 100000,
-  size: .02,
+  size: .03,
   radius: 8,
   branches: 3,
   spin: 1,
-  randomness: .2,
-  randomnessLevel: 2,
+  randomness: .4,
+  randomnessLevel: 2.5,
   insideColor: '#ff6030',
   outsideColor: '#1b3984'
 }
@@ -180,8 +182,9 @@ const generateGalaxy = () => {
   })
 
   // Points
-  galaxyPoints = new THREE.Points(galaxyGeometry, galaxyMaterial)
-  scene.add(galaxyPoints)
+  galaxyPoints = new THREE.Points(galaxyGeometry, galaxyMaterial);
+  scene.add(galaxyPoints);
+  gui.show();
 }
 
 document.getElementById("galaxy-generator").addEventListener("click", () => {
@@ -189,15 +192,15 @@ document.getElementById("galaxy-generator").addEventListener("click", () => {
   scene.remove(planet, textGroup);
 });
 
-gui.add(parameters, "count").min(100).max(1000000).step(100).onFinishChange(generateGalaxy);
-gui.add(parameters, "size").min(0.001).max(0.1).step(0.001).onFinishChange(generateGalaxy);
-gui.add(parameters, "radius").min(0.01).max(20).step(0.01).onFinishChange(generateGalaxy);
-gui.add(parameters, "branches").min(2).max(20).step(1).onFinishChange(generateGalaxy);
-gui.add(parameters, "spin").min(-5).max(5).step(.001).onFinishChange(generateGalaxy);
-gui.add(parameters, "randomness").min(0).max(2).step(.001).onFinishChange(generateGalaxy);
-gui.add(parameters, 'randomnessLevel').min(1).max(10).step(0.001).onFinishChange(generateGalaxy);
-gui.addColor(parameters, 'insideColor').onFinishChange(generateGalaxy)
-gui.addColor(parameters, 'outsideColor').onFinishChange(generateGalaxy)
+galaxyFolder.add(parameters, "count").min(100).max(1000000).step(100).onFinishChange(generateGalaxy);
+galaxyFolder.add(parameters, "size").min(0.001).max(0.1).step(0.001).onFinishChange(generateGalaxy);
+galaxyFolder.add(parameters, "radius").min(0.01).max(20).step(0.01).onFinishChange(generateGalaxy);
+galaxyFolder.add(parameters, "branches").min(2).max(20).step(1).onFinishChange(generateGalaxy);
+galaxyFolder.add(parameters, "spin").min(-5).max(5).step(.001).onFinishChange(generateGalaxy);
+galaxyFolder.add(parameters, "randomness").min(0).max(2).step(.001).onFinishChange(generateGalaxy);
+galaxyFolder.add(parameters, 'randomnessLevel').min(1).max(10).step(0.001).onFinishChange(generateGalaxy);
+galaxyFolder.addColor(parameters, 'insideColor').onFinishChange(generateGalaxy)
+galaxyFolder.addColor(parameters, 'outsideColor').onFinishChange(generateGalaxy)
 
 //---------------------------------Geometries--------------------------------->>
 
